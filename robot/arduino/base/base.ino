@@ -21,11 +21,22 @@
 #define PINIZQ 6
 #define PINDER 7
 
+#define BRAZO_IZQ 6
+#define CADERA_IZQ 7
+#define PIE_IZQ 8
+#define PIE_DER 9
+#define BRAZO_DER 11
+#define CADERA_DER 10
 
 Adafruit_SSD1306 oled(128,64,&Wire,4);
 Adafruit_NeoPixel ojoizq(NUMPIXELS, PINIZQ, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel ojoder(NUMPIXELS, PINDER, NEO_GRB + NEO_KHZ800);
-
+Servo BrazoIzq;
+Servo CaderaIzq;
+Servo PieIzq;
+Servo PieDer;
+Servo CaderaDer;
+Servo BrazoDer;
 
 
 /* PROTOCOLO COMUNICACION */
@@ -133,6 +144,13 @@ void estrella(){
   mensaje="";
 }
 
+void setupBrazos(){
+
+
+
+  
+
+}
 
 
 void setup() {
@@ -148,9 +166,22 @@ void setup() {
   ojoder.fill(ojoder.Color(50,50,50,50),0,12);
   ojoizq.show();
   ojoder.show();
+     BrazoIzq.attach(BRAZO_IZQ);
+  BrazoDer.attach(BRAZO_DER); 
+  PieIzq.attach(PIE_IZQ);
+  PieDer.attach(PIE_DER);
+  CaderaIzq.attach(CADERA_IZQ);
+  CaderaDer.attach(CADERA_DER);
   
+  BrazoDer.write(90);
+  CaderaDer.write(90);
+  PieDer.write(90);
+  BrazoIzq.write(90);
+  CaderaIzq.write(90);
+  PieDer.write(90);
+  delay(300);
  
- 
+  
    
  
 }
@@ -167,11 +198,12 @@ void loop() {
   if(Serial.available()>0)
   {
   
-       
+    digitalWrite(13,HIGH);    
+    Serial.println(mensaje); 
     mensaje = Serial.readString();
     
-    if(mensaje == "encender\n"){ 
-      
+    if(mensaje == "encender"){ 
+     
      estrella();
      Serial.println("Retro calvo <3");     
     
@@ -184,16 +216,17 @@ void loop() {
     
     
   }
+  
   else
   {
 
     // Si no hay mensaje en el serial, estamos en IDLE
-
+    digitalWrite(13,LOW);
     for (int i=20;i<100;i++)
     {      
     ojoizq.fill(ojoizq.Color(i,i,i,i),0,12);
     ojoder.fill(ojoder.Color(i,i,i,i),0,12);
-    delay(6);
+    delay(60);
     ojoizq.show();
     ojoder.show();
     }
