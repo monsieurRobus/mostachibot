@@ -8,6 +8,18 @@
 #define tiempoDELAY 10
 
 
+// ELEMENTOS DE ADAFRUIT NEOPIXEL STRAND (LEDS DIRECCIONABLES)
+
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+ #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
+#endif
+#define LED_COUNT 100
+
+Adafruit_NeoPixel strip(LED_COUNT, DIRECCIONABLE, NEO_GRB + NEO_KHZ800);
+
+
+
 int colorRojo=50;
 int colorVerde=50;
 int colorAzul=50;
@@ -36,7 +48,82 @@ eventos tipoEvento(String eventoDetectado){
   if(eventoDetectado =="mensajeDestacado") return mensajeDestacado;
 }
 
-// Funcion cambiarColor que hace un FADE progresivo con TIEMPODELAY
+// STRIP FUNCITIONS 
+// Funcion RAINBOW extraida del ejemplo STRIP
+
+// Rainbow cycle along whole strip. Pass delay time (in ms) between frames.
+void rainbow(int wait) {
+  // Hue of first pixel runs 5 complete loops through the color wheel.
+  // Color wheel has a range of 65536 but it's OK if we roll over, so
+  // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
+  // means we'll make 5*65536/256 = 1280 passes through this outer loop:
+  for(long firstPixelHue = 0; firstPixelHue < 2*65536; firstPixelHue += 256) {
+    for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
+      // Offset pixel hue by an amount to make one full revolution of the
+      // color wheel (range of 65536) along the length of the strip
+      // (strip.numPixels() steps):
+      int pixelHue = firstPixelHue + (i * 65536L / strip.numPixels());
+      // strip.ColorHSV() can take 1 or 3 arguments: a hue (0 to 65535) or
+      // optionally add saturation and value (brightness) (each 0 to 255).
+      // Here we're using just the single-argument hue variant. The result
+      // is passed through strip.gamma32() to provide 'truer' colors
+      // before assigning to each pixel:
+      strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+    }
+    strip.show(); // Update strip with new contents
+    delay(wait);  // Pause for a moment
+  }
+}
+// FUNCION THEARHERCHASE extraida de ejemplo STRIP
+
+void theaterChase(uint32_t color, int wait) {
+  for(int a=0; a<10; a++) {  // Repeat 10 times...
+    for(int b=0; b<3; b++) { //  'b' counts from 0 to 2...
+      strip.clear();         //   Set all pixels in RAM to 0 (off)
+      // 'c' counts up from 'b' to end of strip in steps of 3...
+      for(int c=b; c<strip.numPixels(); c += 3) {
+        strip.setPixelColor(c, color); // Set pixel 'c' to value 'color'
+      }
+      strip.show(); // Update strip with new contents
+      delay(wait);  // Pause for a moment
+    }
+  }
+}
+
+// Funcion cambiaColorDinamico que hace FADE progresivo a acada pixel y restaura cada pixel a un color concreto
+
+//REVISAR!!!!!! hacer algo similar a cambiarColor
+void cambiaColorDinamico(uint32_t color){
+
+  bool restaura = false;
+  uint32_t colorActual = 0;
+  do 
+  {
+    restaura=true;
+    for (int i=0;i<LED_COUNT+1;i++)
+    {
+      colorActual = strip.getPixelColor(i);
+      if(colorActual>color) {
+        colorActual--;
+        restaura=false;
+      }
+                            
+      if(colorActual<color) 
+      {
+        colorActual++;
+        restaura=false;
+      }
+     strip.setPixelColor(i,colorActual);
+     }
+    strip.show();
+    
+  } while (!restaura);
+  
+}
+
+
+// Funcion cambiarColor que hace un FADE progresivo con TIEMPODELAY 
+// LEDS ESTATICOS
 void cambiarColor(int newR, int newA, int newV) {
   int deltaR = 1;
   int deltaA = 1;
@@ -116,6 +203,7 @@ analogWrite(AZUL,0);
 delay(1000);
 
 
+
 analogWrite(ROJO,50);
 
 analogWrite(VERDE,50);
@@ -126,7 +214,20 @@ analogWrite(AZUL,50);
 
 delay(1000);
 
+
+#if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
+  clock_prescale_set(clock_div_1);
+#endif
+  // END of Trinket-specific code.
+
+  strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
+  strip.fill(strip.Color(155,154,155),0,100);
+  strip.show();            // Turn OFF all pixels ASAP
+  strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+ 
+
 }
+
 
 void loop() {
 
@@ -187,8 +288,15 @@ void loop() {
         case 1:
         Serial.println(eventoRealizado);
           cambiarColor(100,0,0);
+          strip.fill(strip.Color(155,155,155),0,100);
+          strip.show();
           delay(1000);
+          rainbow(1);
+          strip.fill(strip.Color(155,155,155),0,100);
+          strip.show();
           cambiarColor(155,155,155);
+          
+          
         
         break;
         }
