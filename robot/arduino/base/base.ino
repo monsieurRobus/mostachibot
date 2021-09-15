@@ -17,9 +17,8 @@
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
 #endif
 
-#define NUMPIXELS 12
-#define PINIZQ 6
-#define PINDER 7
+#define NUMPIXELS 24
+#define PINojo 2
 
 #define BRAZO_IZQ 6
 #define CADERA_IZQ 7
@@ -29,8 +28,7 @@
 #define CADERA_DER 10
 
 Adafruit_SSD1306 oled(128,64,&Wire,4);
-Adafruit_NeoPixel ojoizq(NUMPIXELS, PINIZQ, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel ojoder(NUMPIXELS, PINDER, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel ojoizq(NUMPIXELS, PINojo, NEO_GRB + NEO_KHZ800);
 Servo BrazoIzq;
 Servo CaderaIzq;
 Servo PieIzq;
@@ -147,9 +145,71 @@ void estrella(){
 void setupBrazos(){
 
 
+}
 
-  
+//uwu
 
+void uwu(){
+
+    ojoizq.clear();
+    ojoizq.setPixelColor(1, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(2, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(3, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(4, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(5, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(6, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(12, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(13, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(14, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(15, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(16, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(17, ojoizq.Color(125, 0, 68));
+    ojoizq.show();
+
+      oled.clearDisplay();
+    oled.setTextColor(WHITE);
+    oled.setCursor(40,0);
+    oled.setTextSize(7);
+    oled.print("w");
+}
+
+//uwu
+
+void owo(){
+
+    ojoizq.clear();
+    
+    ojoizq.setPixelColor(0, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(1, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(2, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(3, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(4, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(5, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(6, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(7, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(8, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(9, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(10, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(11, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(12, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(13, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(14, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(15, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(16, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(17, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(18, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(19, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(20, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(21, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(22, ojoizq.Color(125, 0, 68));
+    ojoizq.setPixelColor(23, ojoizq.Color(125, 0, 68));    
+    ojoizq.show();
+
+      oled.clearDisplay();
+    oled.setTextColor(WHITE);
+    oled.setCursor(40,0);
+    oled.setTextSize(7);
+    oled.print("w");
 }
 
 
@@ -157,15 +217,12 @@ void setup() {
   //Inicializamos el puerto serie a determinada velocidad  
   Serial.begin(baud);
   ojoizq.begin();
-  ojoder.begin();
   pLED.begin();
   setupLeds();
   Wire.begin();
   oled.begin(SSD1306_SWITCHCAPVCC,0x3C);
-  ojoizq.fill(ojoizq.Color(20,20,20,2),0,12);
-  ojoder.fill(ojoder.Color(50,50,50,50),0,12);
+  ojoizq.fill(ojoizq.Color(20,20,20,2),0,24);
   ojoizq.show();
-  ojoder.show();
      BrazoIzq.attach(BRAZO_IZQ);
   BrazoDer.attach(BRAZO_DER); 
   PieIzq.attach(PIE_IZQ);
@@ -180,7 +237,7 @@ void setup() {
   CaderaIzq.write(90);
   PieDer.write(90);
   delay(300);
- 
+ owo();
   
    
  
@@ -188,11 +245,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  oled.clearDisplay();
-  oled.setTextColor(WHITE);
-  oled.setCursor(40,0);
-  oled.setTextSize(7);
-  oled.print("w");
+
   oled.display();
 
   if(Serial.available()>0)
@@ -205,6 +258,7 @@ void loop() {
     if(mensaje == "encender"){ 
      
      estrella();
+     uwu();
      Serial.println("Retro calvo <3");     
     
     }
@@ -224,20 +278,8 @@ void loop() {
     digitalWrite(13,LOW);
     for (int i=20;i<100;i++)
     {      
-    ojoizq.fill(ojoizq.Color(i,i,i,i),0,12);
-    ojoder.fill(ojoder.Color(i,i,i,i),0,12);
-    delay(60);
-    ojoizq.show();
-    ojoder.show();
-    }
+      
   
-    for (int i=100;i>20;i--)
-    {      
-    ojoizq.fill(ojoizq.Color(i,i,i,i),0,12);
-    ojoder.fill(ojoder.Color(i,i,i,i),0,12);
-    delay(6);
-    ojoizq.show();
-    ojoder.show();
     }
 
   

@@ -5,6 +5,7 @@
 #define AZUL 11
 #define VERDE 10
 #define DIRECCIONABLE 8
+#define DIRECCIONABLE2 7
 #define tiempoDELAY 10
 
 
@@ -14,10 +15,10 @@
 #ifdef __AVR__
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
 #endif
-#define LED_COUNT 100
+#define LED_COUNT 70
 
 Adafruit_NeoPixel strip(LED_COUNT, DIRECCIONABLE, NEO_GRB + NEO_KHZ800);
-
+Adafruit_NeoPixel strip2(LED_COUNT, DIRECCIONABLE2, NEO_GRB + NEO_KHZ800);
 
 
 int colorRojo=50;
@@ -204,11 +205,11 @@ delay(1000);
 
 
 
-analogWrite(ROJO,50);
+analogWrite(ROJO,255);
 
-analogWrite(VERDE,50);
+analogWrite(VERDE,0);
 
-analogWrite(AZUL,50);
+analogWrite(AZUL,10);
 
   Serial.println("...hecho");
 
@@ -223,7 +224,15 @@ delay(1000);
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.fill(strip.Color(155,154,155),0,100);
   strip.show();            // Turn OFF all pixels ASAP
-  strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+  strip.setBrightness(255); // Set BRIGHTNESS to about 1/5 (max = 255)
+  
+  strip2.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
+  strip2.fill(strip.Color(255,10,0),0,100);
+  strip2.show();            // Turn OFF all pixels ASAP
+  strip2.setBrightness(200); // Set BRIGHTNESS to about 1/5 (max = 255)
+  strip2.fill(strip.Color(150,150,255),23,100);
+  strip2.show();            // Turn OFF all pixels ASAP
+  strip2.setBrightness(200); // Set BRIGHTNESS to about 1/5 (max = 255)
  
 
 }
